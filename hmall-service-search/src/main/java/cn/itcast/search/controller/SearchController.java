@@ -2,6 +2,7 @@ package cn.itcast.search.controller;
 import cn.itcast.feign.client.ItemClient;
 import cn.itcast.hmall.dto.common.PageDTO;
 import cn.itcast.hmall.dto.common.ResultDTO;
+import cn.itcast.hmall.dto.item.SearchItemDTO;
 import cn.itcast.hmall.dto.search.SearchReqDTO;
 import cn.itcast.hmall.pojo.item.Item;
 import cn.itcast.hmall.pojo.item.ItemDoc;
@@ -56,10 +57,10 @@ public class SearchController {
             int size=1000;
             while (true){
                 BulkRequest hotel = new BulkRequest("item");
-                HashMap<String, Integer> params = new HashMap<>();
-                params.put("page",page);
-                params.put("size",size);
-                PageDTO<Item> list1 = itemClient.list(params);
+                SearchItemDTO searchItemDTO = new SearchItemDTO();
+                searchItemDTO.setPage(page);
+                searchItemDTO.setSize(size);
+                PageDTO<Item> list1 = itemClient.list(searchItemDTO);
                 List<Item> list = list1.getList();
                 if(list.size()>0) {
                     for (Item item : list) {

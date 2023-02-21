@@ -49,9 +49,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         order.setUserId(addressID.getUserId());
         //插入订单
         this.save(order);
-
         // 2. 插入订单描述信息
-
         OrderDetail orderDetail = new OrderDetail();
         orderDetail.setOrderId(order.getId());
         orderDetail.setItemId(one.getId());
@@ -61,7 +59,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         orderDetail.setSpec(one.getSpec());
         orderDetail.setImage(one.getImage());
         orderDetailService.save(orderDetail);
-
         // 3. 保存物流信息
         OrderLogistics orderLogistics = new OrderLogistics();
         orderLogistics.setOrderId(order.getId());
@@ -72,10 +69,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         orderLogistics.setTown(addressID.getTown());
         orderLogistics.setStreet(addressID.getStreet());
         orderLogisticService.save(orderLogistics);
-
         // 4.调用商品服务扣减库存
         itemClient.stock(one.getId(),dto.getNum());
-
         return String.valueOf(order.getId());
     }
 
@@ -86,20 +81,17 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         if(orderId==null|| !StringUtils.isNotBlank(password)){
            throw  new RuntimeException("出错");
         }
-        Order byId = this.getById(orderId);
-        if(byId.getStatus()!=1){
+        Order order = this.getById(orderId);
+        if(order.getStatus()!=1){
             throw new RuntimeException("支付状态有问题");
         }
         Long userId = ThreadLocalUtil.getUserId();
         User user = userClient.getUser(userId);
         ResultDTO resultDTO = new ResultDTO();
         if(!user.getPassword().equals(DigestUtils.md5DigestAsHex(password.getBytes()))){
-//            resultDTO.setSuccess(false);
-//            resultDTO.setMsg("密码错误");
-//            return resultDTO;
-       throw  new RuntimeException("密码错误");
+           throw  new RuntimeException("密码错误");
         }
-        userClient.pay(byId.getTotalFee(),userId);
+        userClient.pay(order.getTotalFee(),userId);
         UpdateWrapper<Order> orderUpdateWrapper = new UpdateWrapper<>();
         orderUpdateWrapper.eq("id",orderId).set("status",2);
         boolean update = this.update(orderUpdateWrapper);

@@ -19,21 +19,33 @@ public class ItemController {
     @Autowired
     private ItemService itemService;
 
-    //分页
+    /**
+     * 分页
+     * @param dto
+     * @return
+     */
     @PostMapping("/list")
     public PageDTO<Item> list(@RequestBody SearchItemDTO dto) {
         log.info("ItemController list   请求参数: {}", dto);
         return itemService.getList(dto);
     }
 
-    //根据id查询
+    /**
+     * 根据id查询
+     * @param id
+     * @return
+     */
     @GetMapping("/{id}")
     public Item getOne(@PathVariable("id") Long id) {
         log.info("ItemController getOne   请求参数: {}", id);
         return itemService.getOneItem(id);
     }
 
-    //添加
+    /**
+     * 添加
+     * @param item
+     * @return
+     */
     @PostMapping
     public ResultDTO add(@RequestBody Item item) {
         log.info("ItemController add   请求参数: {}", item);
@@ -41,7 +53,12 @@ public class ItemController {
         return ResultDTO.ok();
     }
 
-    //上下架
+    /**
+     * 上下架
+     * @param id
+     * @param status
+     * @return
+     */
     @PutMapping("/status/{id}/{status}")
     public ResultDTO updateStatus(@PathVariable("id") Long id, @PathVariable("status") Integer status) {
         log.info("ItemController updateStatus   请求参数: {} {}", id, status);
@@ -54,7 +71,11 @@ public class ItemController {
         }
     }
 
-    //修改
+    /**
+     * 修改
+     * @param item
+     * @return
+     */
     @PutMapping
     public ResultDTO update(@RequestBody Item item) {
         log.info("ItemController update   请求参数: {}", item);
@@ -67,7 +88,11 @@ public class ItemController {
         }
     }
 
-    //删除
+    /**
+     * 删除
+     * @param id
+     * @return
+     */
     @DeleteMapping("/{id}")
     public ResultDTO deleteOne(@PathVariable("id") Long id) {
         log.info("ItemController deleteOne   请求参数: {}", id);
@@ -80,7 +105,12 @@ public class ItemController {
         }
     }
 
-    // 减少库存
+    /**
+     * 减少库存
+     * @param itemId
+     * @param num
+     * @return
+     */
     @PutMapping("/stock/{itemId}/{num}")
     public ResultDTO stock(@PathVariable("itemId") Long itemId, @PathVariable("num") Integer num) {
         log.info("ItemController stock   请求参数: {}   {}", itemId, num);
@@ -88,7 +118,12 @@ public class ItemController {
         return ResultDTO.ok();
     }
 
-    // 补加库存
+    /**
+     * 补加库存
+     * @param id
+     * @param num
+     * @return
+     */
     @RequestMapping("/item/add/{id}/{num}")
     public ResultDTO add(@PathVariable("id") Long id, @PathVariable("num") Integer num) {
         log.info("ItemController add   请求参数: {}   {}", id, num);
