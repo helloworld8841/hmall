@@ -4,15 +4,15 @@ spring:
   application:
     name: itemservice
   datasource:
-    url: jdbc:mysql://192.168.200.130:3306/hmall?useSSL=false&characterEncoding=UTF-8
+    url: jdbc:mysql://192.168.20.130:3306/hmall?useSSL=false&characterEncoding=UTF-8
     username: root
-    password: root
+    password: 1234
     driver-class-name: com.mysql.jdbc.Driver
   cloud:
     nacos:
-      server-addr: 192.168.200.130:8848
+      server-addr: 192.168.20.130:8848
   rabbitmq:
-    host: 192.168.200.130
+    host: 192.168.20.130
     port: 5672
     virtual-host: /
     username: itcast

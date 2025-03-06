@@ -32,7 +32,6 @@ public class SearchController {
     @GetMapping("/suggestion")
     public List<String> getSuggestion(@RequestParam("key")String key){
         return searchService.getSuggestion(key);
-
     }
     //过滤
     @PostMapping("/filters")
